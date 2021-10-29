@@ -20,7 +20,36 @@ class Assertions:
         except json.JSONDecodeError:
             assert False, f"Response is not in JSON format. Response text is {response.text}"
 
-        assert key in response_dict, f"Response JSON doesn't have name' {key}"
+        assert key in response_dict, f"Response JSON doesn't have name' {key}."
+
+    @staticmethod
+    def assert_json_has_keys(response: Response, keys: list):
+        try:
+            response_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f"Response is not in JSON format. Response text is {response.text}"
+
+        for key in keys:
+            assert key in response_dict, f"Response JSON doesn't have name' {key}."
+
+    @staticmethod
+    def assert_json_has_not_key(response: Response, key):
+        try:
+            response_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f"Response is not in JSON format. Response text is {response.text}"
+
+        assert key not in response_dict, f"Response JSON shouldn't have name' {key}. But it's present."
+
+    @staticmethod
+    def assert_json_has_not_keys(response: Response, keys: list):
+        try:
+            response_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f"Response is not in JSON format. Response text is {response.text}"
+
+        for key in keys:
+            assert key not in response_dict, f"Response JSON should't have name' {key}. But it's present."
 
     @staticmethod
     def assert_status_code(response: Response, expected_status_code):
